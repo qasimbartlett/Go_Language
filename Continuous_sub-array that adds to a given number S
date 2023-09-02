@@ -1,0 +1,96 @@
+/*
+
+Given an unsorted array A of size N that contains only positive integers, find a continuous sub-array that adds to a given number S and return the left and right index(1-based indexing) of that subarray.
+
+In case of multiple subarrays, return the subarray indexes which come first on moving from left to right.
+
+Note:- You have to return an ArrayList consisting of two elements left and right. In case no such subarray exists return an array consisting of element -1.
+
+
+Bound / Assumptions
+  - Onl +ve integers'=
+	- How big of an arra?  Assume any size
+	- Multiple subarrays
+
+
+Algorithm
+  for sub_array_size = 0; < len(array); sub_array_size++
+	  for i =0 ; i < len(array); i++
+		   sub_array = ReturnSubArray(i, sub_array_size)
+			 sub_array_sum = SubArraySum(sub_array)
+			 if sub_array_sum == S {
+				return i, i+len(sub_array_sum)
+			 } 
+
+	// There is a O(n) algo for this as well. But I am unable to recollect it
+	start_index = end_index = 0
+	Sum = 0
+	for end_index = 0; end_index < len; end_index++
+	  Sum += array[end_index]
+		if sum > S {
+			sum -= array[end_index]
+			start_index++
+		} else {
+			end_index++
+		}
+
+
+Test Vectors
+   - Null array
+	 - Huge array (eg: 1 billion entries)
+	 - Multiple subarrays {1,2,3,7,5, 1,2,3,7,5, 1,2,3,7,5}; S = 5 Ans:2 4
+	 - No such array {1, 2, 3, 4}    S=100
+
+
+Complexity
+  O(n2)
+	O(n)
+
+
+*/
+
+
+
+package main
+
+
+import . "fmt"
+
+
+func SubArray(s int, arr [] int) (int, int){
+	Println(s, arr)
+	start_index := 0
+	end_index := 0
+	sum := 0
+
+	for end_index = 0; end_index < len(arr); end_index++ {
+    Println("a", start_index, end_index, "Current sum: ", sum, "Target sum:", s)
+		sum += arr[end_index]
+		Println("b", start_index, end_index, "Current sum: ", sum, "Target sum:", s)
+		if sum > s {
+			Println("sum > s; Move start_index")
+			for start_index = start_index; start_index < end_index; start_index++ {
+				sum -= arr[start_index]
+				if sum < s { 
+					break 
+				} else if sum == s { 
+					return start_index+1, end_index
+				 }
+			}
+		} else if sum == s {
+			return start_index, end_index
+		}
+	}
+	return -1, -1
+}
+
+func main() {
+
+	// arr := [] int {1, 4, 20, 3, 10, 5}
+  arr := [] int {}
+	S := 24
+
+	start, end := SubArray(S, arr)
+
+	Println("Hello world ", start, end)
+}
