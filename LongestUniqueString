@@ -1,0 +1,96 @@
+// To execute Go code, please declare a func main() in a package "main"
+/*
+     Longest Substring Without Repeating Characters
+
+		 Define and scope
+		 	   1. Assume the string is very big
+
+		 Test vectors
+		 		1. xxxxxxx   => size = 1
+				2. abcdef...zABCD..Z0..9  	=> size = 62
+				3. ''  => 0   empty string
+				4. ABCDEFGABEF  => 7
+				5. GEEKSFORGEEKS => KSFORGE => 7
+
+		 Algorithm
+		     1. Sliding windo
+		 		Set max_sub_string_size = size of string
+				Check if this  sub_string is uniq
+				if yes => This is answer
+				else decrement max_sub_string_size
+				use a sliding window to determine if the substring has uniq characters
+		 Complexity
+		 		O(N2)
+
+				2.  2 pointer approach.
+				start_index = end_index = 0;
+				in_str[end_index] is the current character
+				Store current character in a dictionary
+				Seen[current_character] = end_index
+
+				inrement end_index
+				Check if the current_character is in the Seen dict.
+				Seen[in_str[j]] = #
+				end_index++
+				checf if in-str[end_index] was seen
+
+
+
+*/
+
+package main
+
+import (
+	. "fmt"
+	"strings"
+)
+
+func Longest_Substring_Without_Repeating_Characters(in_str string) {
+	Println(in_str)
+
+	start_index := 0
+	end_index := 0
+  in_str_list := strings.Split(in_str, "")
+	Seen := make(map[string]int)
+	largest_substring := ""
+	sub_string := ""
+
+	for i := 0; i < len(in_str); i++ {
+		end_index = i
+		current_char := in_str_list[end_index]
+		_, ok := Seen[current_char]
+		if ok {
+			// This current_character is seen before
+			// Print start_index to end_index substring
+			sub_string = in_str[start_index:end_index]
+			if len(sub_string) > len(largest_substring) {
+				largest_substring = sub_string
+			}
+			Println(in_str[start_index:end_index])
+
+			// move start_index to the current_index.
+			start_index = i
+			// Clear the dictionary
+			Seen = make(map[string]int)
+			Seen[current_char] = end_index
+
+			//
+
+		} else {
+			Seen[current_char] = end_index
+		}
+
+	}
+
+	Println("Largest substring = ", largest_substring)
+
+}
+
+
+func main() {
+	Println("Hi there")
+	test_vector := "GEEKSFORGEEKS"
+	Longest_Substring_Without_Repeating_Characters(test_vector)
+
+	
+}
