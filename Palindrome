@@ -1,0 +1,46 @@
+/* Palindrome String
+
+Assumptions (Bound the problem)
+  - How big is the string
+	- Are there ascii characters onoy or are their international lang characters (UTF-8)
+
+Test Vectors
+  1. empty string ""
+	2. Very long string in a file say 100G bytes
+
+Alrotithm
+	Start at begin and end
+	Array[begin++] != array[end--] then not Palindrome
+
+Complexity
+    O(n)
+*/
+
+package main
+
+import (
+	. "fmt"
+)
+
+func Palin (s string) bool{
+  is_palin := true
+
+	for i := 0; i < len(s)/2; i++ {
+		if s[i] != s[len(s) - i - 1] {
+			is_palin = false
+			break
+		}
+	}	
+	return is_palin
+}
+
+
+func main() {
+Println("Hello world")
+
+s := ""
+yes_no := Palin(s)
+
+Println("String ", s, "Is a Palindrome: ", yes_no)
+
+}
